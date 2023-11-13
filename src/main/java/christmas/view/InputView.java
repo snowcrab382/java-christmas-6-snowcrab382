@@ -32,9 +32,10 @@ public class InputView {
 
     private void validateOrder(String input) {
         try {
-            isCorrectFormat(input);
+            List<String> orders = isCorrectFormat(input);
+            isCountNumber(orders);
+            isMenuDuplicate(orders);
             isInMenu();
-            isMenuDuplicate();
             isMenuOnlyBeverage();
             isCountInRange();
             isTotalCountInRange();
@@ -42,6 +43,17 @@ public class InputView {
             System.out.println(e.getMessage());
             reservationOrder.clear();
             readOrder();
+        }
+    }
+
+    private void isCountNumber(List<String> orders) {
+        for (String order : orders) {
+            List<String> menuAndCount = List.of(order.split("-"));
+            try {
+                Integer.parseInt(menuAndCount.get(1));
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("개수가 숫자가 아닙니다.");
+            }
         }
     }
 
@@ -75,11 +87,16 @@ public class InputView {
         }
     }
 
-    private void isMenuDuplicate() {
-        try {
-            reservationOrder.keySet();
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("중복된 메뉴가 있습니다.");
+    private void isMenuDuplicate(List<String> orders) {
+        for (String order : orders) {
+            List<String> menuAndCount = List.of(order.split("-"));
+            String foodName = menuAndCount.get(0);
+            int count = Integer.parseInt(menuAndCount.get(1));
+
+            if (reservationOrder.containsKey(foodName)) {
+                throw new IllegalArgumentException("중복된 메뉴가 있습니다.");
+            }
+            reservationOrder.put(foodName, count);
         }
     }
 
@@ -91,20 +108,15 @@ public class InputView {
         }
     }
 
-    private void isCorrectFormat(String input) {
-        try {
-            List<String> orders = List.of(input.split(","));
-            for (String order : orders) {
-                String[] menuAndCount = order.split("-");
-                String foodName = menuAndCount[0];
-                String count = menuAndCount[1];
-                reservationOrder.put(foodName, Integer.parseInt(count));
+    private List<String> isCorrectFormat(String input) {
+        List<String> orders = List.of(input.split(","));
+        for (String order : orders) {
+            List<String> menuAndCount = List.of(order.split("-"));
+            if (menuAndCount.size() != 2) {
+                throw new IllegalArgumentException("메뉴와 개수는 '-'로 구분되어야 합니다.");
             }
-        } catch (ArrayIndexOutOfBoundsException e) {
-            throw new IllegalArgumentException("잘못된 형식입니다.");
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("숫자가 아닙니다.");
         }
+        return orders;
     }
 
     private void validateDate(String input) {
