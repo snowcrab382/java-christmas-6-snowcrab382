@@ -46,6 +46,11 @@ public class InputView {
     }
 
     private void isCountInRange() {
+        for (int count : reservationOrder.values()) {
+            if (count < 1) {
+                throw new IllegalArgumentException("주문 개수는 1 이상이어야 합니다.");
+            }
+        }
     }
 
     private void isMenuOnlyBeverage() {
