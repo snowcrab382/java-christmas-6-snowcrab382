@@ -54,15 +54,11 @@ public class InputView {
     }
 
     private void isMenuOnlyBeverage() {
-        try {
-            for (String foodName : reservationOrder.keySet()) {
-                if (menu.isBeverage(foodName)) {
-                    throw new IllegalArgumentException("음료만 주문할 수 없습니다.");
-                }
-            }
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("음료만 주문할 수 없습니다.");
-        }
+        Set<String> foodNames = reservationOrder.keySet();
+        foodNames.stream()
+                .allMatch(menu::isBeverage)
+                .equals(true);
+
     }
 
     private void isMenuDuplicate() {

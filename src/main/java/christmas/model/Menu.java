@@ -17,19 +17,19 @@ public enum Menu {
     RED_WINE("레드와인", 60_000, "BEVERAGE"),
     CHAMPAGNE("샴페인", 25_000, "BEVERAGE");
 
-    private final String foodName;
+    private final String foodNames;
     private final int price;
     private final String category;
 
     Menu(String foodName, int price, String category) {
-        this.foodName = foodName;
+        this.foodNames = foodName;
         this.price = price;
         this.category = category;
     }
 
-    public boolean isInMenu(String menu) {
+    public boolean isInMenu(String foodName) {
         for (Menu value : Menu.values()) {
-            if (value.foodName.equals(menu)) {
+            if (value.foodNames.equals(foodName)) {
                 return true;
             }
         }
