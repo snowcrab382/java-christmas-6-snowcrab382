@@ -36,9 +36,8 @@ public enum Menu {
         return false;
     }
 
-    public boolean isBeverage(String foodName) {
+    public static boolean isBeverage(String foodName) {
         for (Menu value : Menu.values()) {
-            System.out.println(value);
             if (value.foodNames.equals(foodName)) {
                 return value.category.equals("BEVERAGE");
             }

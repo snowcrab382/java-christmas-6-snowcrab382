@@ -34,7 +34,6 @@ public class InputView {
     private void validateOrder(String input) {
         try {
             isCorrectFormat(input);
-            System.out.println("reservationOrder = " + reservationOrder);
             isInMenu();
             isMenuDuplicate();
             isMenuOnlyBeverage();
@@ -59,9 +58,15 @@ public class InputView {
     }
 
     private void isMenuOnlyBeverage() {
-        Set<String> foodNames = reservationOrder.keySet();
-
-
+        boolean flag = true;
+        for (String foodName : reservationOrder.keySet()) {
+            if (!Menu.isBeverage(foodName)) {
+                flag = false;
+            }
+        }
+        if (flag) {
+            throw new IllegalArgumentException("메뉴가 모두 음료입니다.");
+        }
     }
 
     private void isMenuDuplicate() {
@@ -74,7 +79,6 @@ public class InputView {
 
     private void isInMenu() {
         for (String foodName : reservationOrder.keySet()) {
-            System.out.println("foodName = " + foodName);
             if (!Menu.isInMenu(foodName)) {
                 throw new IllegalArgumentException("메뉴에 없는 메뉴가 있습니다.");
             }
