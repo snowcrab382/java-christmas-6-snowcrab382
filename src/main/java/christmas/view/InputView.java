@@ -1,19 +1,95 @@
 package christmas.view;
 
 import camp.nextstep.edu.missionutils.Console;
+import christmas.model.Menu;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 
 public class InputView {
 
     private static int reservationDate;
+    private static Map<String, Integer> reservationOrder;
+    private static Menu menu;
 
-    public void readDate() {
+    public int readDate() {
         System.out.println("12월 중 식당 예상 방문 날짜는 언제인가요? (숫자만 입력해 주세요!)");
         String input = Console.readLine();
         validateDate(input);
+        return reservationDate;
     }
 
-    public void readOrder() {
+    public Map<String, Integer> readOrder() {
+        System.out.println("주문하실 메뉴를 메뉴와 개수를 알려 주세요. (e.g. 해산물파스타-2,레드와인-1,초코케이크-1)");
+        String input = Console.readLine();
+        validateOrder(input);
+        return reservationOrder;
+    }
+
+    private void validateOrder(String input) {
+        try {
+            isCorrectFormat(input);
+            isInMenu();
+            isMenuDuplicate();
+            isMenuOnlyBeverage();
+            isCountInRange();
+            isTotalCountInRange();
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            reservationOrder.clear();
+            readOrder();
+        }
+    }
+
+    private void isTotalCountInRange() {
+    }
+
+    private void isCountInRange() {
+    }
+
+    private void isMenuOnlyBeverage() {
+        try {
+            for (String foodName : reservationOrder.keySet()) {
+                if (menu.isBeverage(foodName)) {
+                    throw new IllegalArgumentException("음료만 주문할 수 없습니다.");
+                }
+            }
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("음료만 주문할 수 없습니다.");
+        }
+    }
+
+    private void isMenuDuplicate() {
+        try {
+            Set<String> menuNames = reservationOrder.keySet();
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("중복된 메뉴가 있습니다.");
+        }
+    }
+
+    private void isInMenu() {
+        for (String foodName : reservationOrder.keySet()) {
+            if (!menu.isInMenu(foodName)) {
+                throw new IllegalArgumentException("메뉴에 없는 메뉴가 있습니다.");
+            }
+        }
+    }
+
+    private void isCorrectFormat(String input) {
+        try {
+            List<String> order = List.of(input.split(","));
+            for (String menu : order) {
+                String[] menuAndCount = menu.split("-");
+                String menuName = menuAndCount[0];
+                String menuCount = menuAndCount[1];
+                reservationOrder.put(menuName, Integer.parseInt(menuCount));
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new IllegalArgumentException("메뉴와 개수를 '-'로 구분해 주세요.");
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("메뉴 개수는 숫자로 입력해 주세요.");
+        }
     }
 
     private void validateDate(String input) {

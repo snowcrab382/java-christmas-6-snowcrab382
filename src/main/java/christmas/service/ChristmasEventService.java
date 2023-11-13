@@ -4,6 +4,7 @@ import christmas.model.BenefitCalculator;
 import christmas.model.UserOrder;
 import christmas.view.InputView;
 import christmas.view.OutputView;
+import java.util.Map;
 
 public class ChristmasEventService {
 
@@ -18,8 +19,8 @@ public class ChristmasEventService {
     }
 
     public UserOrder requestUserInput() {
-        inputView.readDate();
-        inputView.readOrder();
+        int reservationDate = inputView.readDate();
+        Map<String, Integer> reservationOrder = inputView.readOrder();
 
         return userOrder;
     }
