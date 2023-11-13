@@ -2,6 +2,7 @@ package christmas.view;
 
 import camp.nextstep.edu.missionutils.Console;
 import christmas.model.Menu;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -11,7 +12,10 @@ public class InputView {
 
     private static int reservationDate;
     private static Map<String, Integer> reservationOrder;
-    private static Menu menu;
+
+    public InputView() {
+        reservationOrder = new HashMap<>();
+    }
 
     public int readDate() {
         System.out.println("12월 중 식당 예상 방문 날짜는 언제인가요? (숫자만 입력해 주세요!)");
@@ -30,6 +34,7 @@ public class InputView {
     private void validateOrder(String input) {
         try {
             isCorrectFormat(input);
+            System.out.println("reservationOrder = " + reservationOrder);
             isInMenu();
             isMenuDuplicate();
             isMenuOnlyBeverage();
@@ -55,9 +60,7 @@ public class InputView {
 
     private void isMenuOnlyBeverage() {
         Set<String> foodNames = reservationOrder.keySet();
-        foodNames.stream()
-                .allMatch(menu::isBeverage)
-                .equals(true);
+
 
     }
 
@@ -71,7 +74,8 @@ public class InputView {
 
     private void isInMenu() {
         for (String foodName : reservationOrder.keySet()) {
-            if (!menu.isInMenu(foodName)) {
+            System.out.println("foodName = " + foodName);
+            if (!Menu.isInMenu(foodName)) {
                 throw new IllegalArgumentException("메뉴에 없는 메뉴가 있습니다.");
             }
         }

@@ -10,7 +10,7 @@ public enum Menu {
     SEAFOOD_PASTA("해산물파스타", 35_000, "MAIN_DISH"),
     CHRISTMAS_PASTA("크리스마스파스타", 25_000, "MAIN_DISH"),
 
-    CHOCOLATE_CAKE("초콜릿케이크", 15_000, "DESSERT"),
+    CHOCOLATE_CAKE("초코케이크", 15_000, "DESSERT"),
     ICECREAM("아이스크림", 5_000, "DESSERT"),
 
     ZERO_COKE("제로콜라", 3_000, "BEVERAGE"),
@@ -21,16 +21,26 @@ public enum Menu {
     private final int price;
     private final String category;
 
-    Menu(String foodName, int price, String category) {
-        this.foodNames = foodName;
+    Menu(String foodNames, int price, String category) {
+        this.foodNames = foodNames;
         this.price = price;
         this.category = category;
     }
 
-    public boolean isInMenu(String foodName) {
+    public static boolean isInMenu(String foodName) {
         for (Menu value : Menu.values()) {
             if (value.foodNames.equals(foodName)) {
                 return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isBeverage(String foodName) {
+        for (Menu value : Menu.values()) {
+            System.out.println(value);
+            if (value.foodNames.equals(foodName)) {
+                return value.category.equals("BEVERAGE");
             }
         }
         return false;
