@@ -5,7 +5,6 @@ import christmas.model.Menu;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 
 public class InputView {
@@ -47,6 +46,13 @@ public class InputView {
     }
 
     private void isTotalCountInRange() {
+        int totalCount = 0;
+        for (int count : reservationOrder.values()) {
+            totalCount += count;
+        }
+        if (totalCount > 20) {
+            throw new IllegalArgumentException("주문 개수 총합은 20 이하여야 합니다.");
+        }
     }
 
     private void isCountInRange() {
@@ -71,7 +77,7 @@ public class InputView {
 
     private void isMenuDuplicate() {
         try {
-            Set<String> menuNames = reservationOrder.keySet();
+            reservationOrder.keySet();
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("중복된 메뉴가 있습니다.");
         }
@@ -87,17 +93,17 @@ public class InputView {
 
     private void isCorrectFormat(String input) {
         try {
-            List<String> order = List.of(input.split(","));
-            for (String menu : order) {
-                String[] menuAndCount = menu.split("-");
-                String menuName = menuAndCount[0];
-                String menuCount = menuAndCount[1];
-                reservationOrder.put(menuName, Integer.parseInt(menuCount));
+            List<String> orders = List.of(input.split(","));
+            for (String order : orders) {
+                String[] menuAndCount = order.split("-");
+                String foodName = menuAndCount[0];
+                String count = menuAndCount[1];
+                reservationOrder.put(foodName, Integer.parseInt(count));
             }
         } catch (ArrayIndexOutOfBoundsException e) {
-            throw new IllegalArgumentException("메뉴와 개수를 '-'로 구분해 주세요.");
+            throw new IllegalArgumentException("잘못된 형식입니다.");
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("메뉴 개수는 숫자로 입력해 주세요.");
+            throw new IllegalArgumentException("숫자가 아닙니다.");
         }
     }
 
