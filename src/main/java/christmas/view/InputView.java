@@ -46,6 +46,17 @@ public class InputView {
         }
     }
 
+    private List<String> isCorrectFormat(String input) {
+        List<String> orders = List.of(input.split(","));
+        for (String order : orders) {
+            List<String> menuAndCount = List.of(order.split("-"));
+            if (menuAndCount.size() != 2) {
+                throw new IllegalArgumentException("메뉴와 개수는 '-'로 구분되어야 합니다.");
+            }
+        }
+        return orders;
+    }
+
     private void isCountNumber(List<String> orders) {
         for (String order : orders) {
             List<String> menuAndCount = List.of(order.split("-"));
@@ -54,36 +65,6 @@ public class InputView {
             } catch (NumberFormatException e) {
                 throw new IllegalArgumentException("개수가 숫자가 아닙니다.");
             }
-        }
-    }
-
-    private void isTotalCountInRange() {
-        int totalCount = 0;
-        for (int count : reservationOrder.values()) {
-            totalCount += count;
-        }
-        if (totalCount > 20) {
-            throw new IllegalArgumentException("주문 개수 총합은 20 이하여야 합니다.");
-        }
-    }
-
-    private void isCountInRange() {
-        for (int count : reservationOrder.values()) {
-            if (count < 1) {
-                throw new IllegalArgumentException("주문 개수는 1 이상이어야 합니다.");
-            }
-        }
-    }
-
-    private void isMenuOnlyBeverage() {
-        boolean flag = true;
-        for (String foodName : reservationOrder.keySet()) {
-            if (!Menu.isBeverage(foodName)) {
-                flag = false;
-            }
-        }
-        if (flag) {
-            throw new IllegalArgumentException("메뉴가 모두 음료입니다.");
         }
     }
 
@@ -108,16 +89,36 @@ public class InputView {
         }
     }
 
-    private List<String> isCorrectFormat(String input) {
-        List<String> orders = List.of(input.split(","));
-        for (String order : orders) {
-            List<String> menuAndCount = List.of(order.split("-"));
-            if (menuAndCount.size() != 2) {
-                throw new IllegalArgumentException("메뉴와 개수는 '-'로 구분되어야 합니다.");
+    private void isMenuOnlyBeverage() {
+        boolean flag = true;
+        for (String foodName : reservationOrder.keySet()) {
+            if (!Menu.isBeverage(foodName)) {
+                flag = false;
             }
         }
-        return orders;
+        if (flag) {
+            throw new IllegalArgumentException("메뉴가 모두 음료입니다.");
+        }
     }
+
+    private void isCountInRange() {
+        for (int count : reservationOrder.values()) {
+            if (count < 1) {
+                throw new IllegalArgumentException("주문 개수는 1 이상이어야 합니다.");
+            }
+        }
+    }
+
+    private void isTotalCountInRange() {
+        int totalCount = 0;
+        for (int count : reservationOrder.values()) {
+            totalCount += count;
+        }
+        if (totalCount > 20) {
+            throw new IllegalArgumentException("주문 개수 총합은 20 이하여야 합니다.");
+        }
+    }
+
 
     private void validateDate(String input) {
         try {
@@ -129,12 +130,6 @@ public class InputView {
         }
     }
 
-    private void isInRange() {
-        if (reservationDate < 1 || reservationDate > 31) {
-            throw new IllegalArgumentException("1~31 사이 숫자가 아닙니다.");
-        }
-    }
-
     private void isNumber(String input) {
         try {
             reservationDate = Integer.parseInt(input);
@@ -143,4 +138,9 @@ public class InputView {
         }
     }
 
+    private void isInRange() {
+        if (reservationDate < 1 || reservationDate > 31) {
+            throw new IllegalArgumentException("1~31 사이 숫자가 아닙니다.");
+        }
+    }
 }
