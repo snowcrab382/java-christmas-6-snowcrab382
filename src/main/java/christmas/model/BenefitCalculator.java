@@ -5,7 +5,7 @@ import java.util.Map;
 public class BenefitCalculator {
 
     private static int TOTAL_PRICE = 0;
-    private static int D_DAY_SALE_PRICE = 0;
+    private static int D_DAY_SALE_PRICE = 1000;
 
     private static UserOrder userOrder;
 
@@ -23,5 +23,14 @@ public class BenefitCalculator {
         });
         return TOTAL_PRICE;
     }
+
+    public int calculateDdaySalePrice() {
+        int date = userOrder.getReservationDate();
+        if (date <= 25) {
+            D_DAY_SALE_PRICE += (date - 1) * 100;
+        }
+        return D_DAY_SALE_PRICE;
+    }
+
 
 }
