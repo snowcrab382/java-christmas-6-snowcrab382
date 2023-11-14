@@ -12,6 +12,8 @@ public class BenefitCalculator {
 
     private static int SPECIAL_SALE_PRICE = 0;
 
+    private static String PRESENT = "없음";
+
     private static UserOrder userOrder;
 
     public BenefitCalculator(UserOrder userOrder) {
@@ -49,6 +51,13 @@ public class BenefitCalculator {
         return SPECIAL_SALE_PRICE;
     }
 
+    public String calculatePresent() {
+        if (isPresentAvailable()) {
+            PRESENT = "샴페인";
+        }
+        return PRESENT;
+    }
+
     private boolean isSpecialDay() {
         int date = userOrder.getReservationDate();
         return date % 7 == 3 || date == 25;
@@ -75,6 +84,13 @@ public class BenefitCalculator {
         return date % 7 == 1 || date % 7 == 2;
     }
 
+    public boolean isBenefitAvailable() {
+        return TOTAL_PRICE >= 10000;
+    }
+
+    public boolean isPresentAvailable() {
+        return TOTAL_PRICE >= 120000;
+    }
 
     public Map<String, Integer> getReservationOrder() {
         return userOrder.getReservationOrder();

@@ -8,6 +8,16 @@ public class OutputView {
         System.out.println("12월 " + benefitCalculator.getReservationDate() + "일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!");
         printOrders(benefitCalculator);
         printTotalPrice(benefitCalculator);
+        printPresent(benefitCalculator);
+        if (benefitCalculator.isBenefitAvailable()) {
+
+        }
+    }
+
+    private void printPresent(BenefitCalculator benefitCalculator) {
+        System.out.println();
+        System.out.println("<증정 메뉴>");
+        System.out.println(benefitCalculator.calculatePresent());
     }
 
     private void printTotalPrice(BenefitCalculator benefitCalculator) {
