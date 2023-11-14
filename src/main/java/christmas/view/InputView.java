@@ -1,5 +1,8 @@
 package christmas.view;
 
+import static christmas.constant.ErrorMessages.WRONG_DATE;
+import static christmas.constant.ErrorMessages.WRONG_ORDER;
+
 import camp.nextstep.edu.missionutils.Console;
 import christmas.model.Menu;
 import java.util.HashMap;
@@ -51,7 +54,7 @@ public class InputView {
         for (String order : orders) {
             List<String> menuAndCount = List.of(order.split("-"));
             if (menuAndCount.size() != 2) {
-                throw new IllegalArgumentException("메뉴와 개수는 '-'로 구분되어야 합니다.");
+                throw new IllegalArgumentException(WRONG_ORDER);
             }
         }
         return orders;
@@ -63,7 +66,7 @@ public class InputView {
             try {
                 Integer.parseInt(menuAndCount.get(1));
             } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("개수가 숫자가 아닙니다.");
+                throw new IllegalArgumentException(WRONG_ORDER);
             }
         }
     }
@@ -75,7 +78,7 @@ public class InputView {
             int count = Integer.parseInt(menuAndCount.get(1));
 
             if (reservationOrder.containsKey(foodName)) {
-                throw new IllegalArgumentException("중복된 메뉴가 있습니다.");
+                throw new IllegalArgumentException(WRONG_ORDER);
             }
             reservationOrder.put(foodName, count);
         }
@@ -84,7 +87,7 @@ public class InputView {
     private void isInMenu() {
         for (String foodName : reservationOrder.keySet()) {
             if (!Menu.isInMenu(foodName)) {
-                throw new IllegalArgumentException("메뉴에 없는 메뉴가 있습니다.");
+                throw new IllegalArgumentException(WRONG_ORDER);
             }
         }
     }
@@ -97,14 +100,14 @@ public class InputView {
             }
         }
         if (flag) {
-            throw new IllegalArgumentException("메뉴가 모두 음료입니다.");
+            throw new IllegalArgumentException(WRONG_ORDER);
         }
     }
 
     private void isCountInRange() {
         for (int count : reservationOrder.values()) {
             if (count < 1) {
-                throw new IllegalArgumentException("주문 개수는 1 이상이어야 합니다.");
+                throw new IllegalArgumentException(WRONG_ORDER);
             }
         }
     }
@@ -115,7 +118,7 @@ public class InputView {
             totalCount += count;
         }
         if (totalCount > 20) {
-            throw new IllegalArgumentException("주문 개수 총합은 20 이하여야 합니다.");
+            throw new IllegalArgumentException(WRONG_ORDER);
         }
     }
 
@@ -134,13 +137,13 @@ public class InputView {
         try {
             reservationDate = Integer.parseInt(input);
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("숫자가 아닙니다.");
+            throw new IllegalArgumentException(WRONG_DATE);
         }
     }
 
     private void isInRange() {
         if (reservationDate < 1 || reservationDate > 31) {
-            throw new IllegalArgumentException("1~31 사이 숫자가 아닙니다.");
+            throw new IllegalArgumentException(WRONG_DATE);
         }
     }
 }
