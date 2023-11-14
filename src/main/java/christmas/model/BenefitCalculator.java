@@ -9,18 +9,17 @@ public class BenefitCalculator {
     private static int DISCOUNTED_TOTAL_PRICE = 0;
 
     private static int D_DAY_SALE_PRICE = 0;
-
     private static int WEEKEND_SALE_PRICE = 0;
     private static int WEEKDAY_SALE_PRICE = 0;
-
     private static int SPECIAL_SALE_PRICE = 0;
 
     private static String PRESENT = "없음";
     private static int PRESENT_PRICE = 0;
 
-
     private static Map<String, Integer> TOTAL_BENEFIT_RESULT = new HashMap<>();
     private static int TOTAL_BENEFIT_PRICE = 0;
+
+    private static String EVENT_BADGE = "없음";
 
     private static UserOrder userOrder;
 
@@ -34,6 +33,7 @@ public class BenefitCalculator {
         calculatePresentPrice();
         calculateTotalBenefit();
         calculateDiscountedTotalPrice();
+        calculateEventBadge();
     }
 
     public Map<String, Integer> getReservationOrder() {
@@ -62,6 +62,10 @@ public class BenefitCalculator {
 
     public int getDiscountedTotalPrice() {
         return DISCOUNTED_TOTAL_PRICE;
+    }
+
+    public String getEventBadge() {
+        return EVENT_BADGE;
     }
 
     private void calculateTotalPrice() {
@@ -115,17 +119,27 @@ public class BenefitCalculator {
         TOTAL_BENEFIT_RESULT.put("평일 할인: ", WEEKDAY_SALE_PRICE);
         TOTAL_BENEFIT_RESULT.put("주말 할인: ", WEEKEND_SALE_PRICE);
         TOTAL_BENEFIT_RESULT.put("특별 할인: ", SPECIAL_SALE_PRICE);
+        TOTAL_BENEFIT_RESULT.put("증정 이벤트: ", PRESENT_PRICE);
 
-        //총 혜택금액에서 증정 이벤트금액은 제외
         TOTAL_BENEFIT_RESULT.forEach((key, value) -> {
             TOTAL_BENEFIT_PRICE += value;
         });
-
-        TOTAL_BENEFIT_RESULT.put("증정 이벤트: ", PRESENT_PRICE);
     }
 
     private void calculateDiscountedTotalPrice() {
-        DISCOUNTED_TOTAL_PRICE = TOTAL_PRICE - TOTAL_BENEFIT_PRICE;
+        DISCOUNTED_TOTAL_PRICE = TOTAL_PRICE - TOTAL_BENEFIT_PRICE + PRESENT_PRICE;
+    }
+
+    private void calculateEventBadge() {
+        if (TOTAL_BENEFIT_PRICE > 5000) {
+            EVENT_BADGE = "별";
+        }
+        if (TOTAL_BENEFIT_PRICE > 10000) {
+            EVENT_BADGE = "트리";
+        }
+        if (TOTAL_BENEFIT_PRICE > 20000) {
+            EVENT_BADGE = "산타";
+        }
     }
 
     public boolean isBenefitAvailable() {

@@ -12,6 +12,13 @@ public class OutputView {
         printBenefitResult(benefitCalculator);
         printBenefitPrice(benefitCalculator);
         printDiscountedTotalPrice(benefitCalculator);
+        printEventBadge(benefitCalculator);
+    }
+
+    private void printEventBadge(BenefitCalculator benefitCalculator) {
+        System.out.println();
+        System.out.println("<12월 이벤트 배지>");
+        System.out.println(benefitCalculator.getEventBadge());
     }
 
     private void printDiscountedTotalPrice(BenefitCalculator benefitCalculator) {
@@ -25,7 +32,7 @@ public class OutputView {
     private void printBenefitPrice(BenefitCalculator benefitCalculator) {
         System.out.println();
         System.out.println("<총혜택 금액>");
-        System.out.println(benefitCalculator.getBenefitPrice() + "원");
+        System.out.println("-" + benefitCalculator.getBenefitPrice() + "원");
     }
 
     private void printBenefitResult(BenefitCalculator benefitCalculator) {
