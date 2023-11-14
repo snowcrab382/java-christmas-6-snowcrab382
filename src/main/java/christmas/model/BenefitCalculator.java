@@ -24,12 +24,24 @@ public class BenefitCalculator {
 
     public BenefitCalculator(UserOrder userOrder) {
         this.userOrder = userOrder;
+        calculateTotalPrice();
+        calculateDdaySalePrice();
+        calculateWeekdaySale();
+        calculateWeekendSale();
+        calculateSpecialSalePrice();
+        calculatePresentPrice();
+        calculateTotalBenefit();
+    }
+
+    public Map<String, Integer> getReservationOrder() {
+        return userOrder.getReservationOrder();
+    }
+
+    public int getReservationDate() {
+        return userOrder.getReservationDate();
     }
 
     public int getTotalPrice() {
-        userOrder.getReservationOrder().forEach((key, value) -> {
-            TOTAL_PRICE += Menu.getPrice(key) * value;
-        });
         return TOTAL_PRICE;
     }
 
@@ -40,67 +52,70 @@ public class BenefitCalculator {
         return PRESENT;
     }
 
-    public Map<String, Integer> calculateTotalBenefit() {
-        TOTAL_BENEFIT.put("크리스마스 디데이 할인: ", calculateDdaySalePrice());
-        TOTAL_BENEFIT.put("평일 할인: ", calculateWeekdaySale());
-        TOTAL_BENEFIT.put("주말 할인: ", calculateWeekendSale());
-        TOTAL_BENEFIT.put("특별 할인: ", calculateSpecialSalePrice());
-        TOTAL_BENEFIT.put("증정 이벤트: ", calculatePresentPrice());
-
-        return TOTAL_BENEFIT;
+    private void calculateTotalPrice() {
+        getReservationOrder().forEach((key, value) -> {
+            TOTAL_PRICE += Menu.getPrice(key) * value;
+        });
     }
 
-    private int calculateDdaySalePrice() {
-        int date = userOrder.getReservationDate();
+    private void calculateDdaySalePrice() {
+        int date = getReservationDate();
         if (date <= 25) {
             D_DAY_SALE_PRICE = 1000 + (date - 1) * 100;
         }
-        return D_DAY_SALE_PRICE;
     }
 
-    private int calculateSpecialSalePrice() {
-        if (isSpecialDay()) {
-            SPECIAL_SALE_PRICE += 1000;
-        }
-        return SPECIAL_SALE_PRICE;
-    }
-
-    private int calculateWeekdaySale() {
+    private void calculateWeekdaySale() {
         if (!isWeekend()) {
-            userOrder.getReservationOrder().forEach((key, value) -> {
+            getReservationOrder().forEach((key, value) -> {
                 if (Menu.isDessert(key)) {
                     WEEKDAY_SALE_PRICE += value * 2023;
                 }
             });
         }
-        return WEEKDAY_SALE_PRICE;
     }
 
-    private int calculateWeekendSale() {
+    private void calculateWeekendSale() {
         if (isWeekend()) {
-            userOrder.getReservationOrder().forEach((key, value) -> {
+            getReservationOrder().forEach((key, value) -> {
                 if (Menu.isMainDish(key)) {
                     WEEKEND_SALE_PRICE += value * 2023;
                 }
             });
         }
-        return WEEKEND_SALE_PRICE;
     }
 
-    private int calculatePresentPrice() {
+    private void calculateSpecialSalePrice() {
+        if (isSpecialDay()) {
+            SPECIAL_SALE_PRICE += 1000;
+        }
+    }
+
+    private void calculatePresentPrice() {
         if (isPresentAvailable()) {
             PRESENT_PRICE = 25000;
         }
-        return PRESENT_PRICE;
+    }
+
+    private void calculateTotalBenefit() {
+        TOTAL_BENEFIT.put("크리스마스 디데이 할인: ", D_DAY_SALE_PRICE);
+        TOTAL_BENEFIT.put("평일 할인: ", WEEKDAY_SALE_PRICE);
+        TOTAL_BENEFIT.put("주말 할인: ", WEEKEND_SALE_PRICE);
+        TOTAL_BENEFIT.put("특별 할인: ", SPECIAL_SALE_PRICE);
+        TOTAL_BENEFIT.put("증정 이벤트: ", PRESENT_PRICE);
+
+        TOTAL_BENEFIT.forEach((key, value) -> {
+            TOTAL_BENEFIT_PRICE += value;
+        });
     }
 
     private boolean isSpecialDay() {
-        int date = userOrder.getReservationDate();
+        int date = getReservationDate();
         return date % 7 == 3 || date == 25;
     }
 
     private boolean isWeekend() {
-        int date = userOrder.getReservationDate();
+        int date = getReservationDate();
         return date % 7 == 1 || date % 7 == 2;
     }
 
@@ -112,11 +127,4 @@ public class BenefitCalculator {
         return TOTAL_PRICE >= 120000;
     }
 
-    public Map<String, Integer> getReservationOrder() {
-        return userOrder.getReservationOrder();
-    }
-
-    public int getReservationDate() {
-        return userOrder.getReservationDate();
-    }
 }
