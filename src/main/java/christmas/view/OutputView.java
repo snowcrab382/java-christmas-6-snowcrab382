@@ -23,7 +23,7 @@ public class OutputView {
 
     private void printDiscountedTotalPrice(BenefitCalculator benefitCalculator) {
         System.out.println();
-        System.out.println("<할인 후 총주문 금액>");
+        System.out.println("<할인 후 예상 결제 금액>");
         int discountedTotalPrice = benefitCalculator.getDiscountedTotalPrice();
         //쉼표 구분해서 출력 구현 필요
         System.out.println(discountedTotalPrice + "원");
@@ -32,7 +32,7 @@ public class OutputView {
     private void printBenefitPrice(BenefitCalculator benefitCalculator) {
         System.out.println();
         System.out.println("<총혜택 금액>");
-        System.out.println("-" + benefitCalculator.getBenefitPrice() + "원");
+        System.out.println(benefitCalculator.getBenefitPrice() + "원");
     }
 
     private void printBenefitResult(BenefitCalculator benefitCalculator) {
@@ -41,9 +41,12 @@ public class OutputView {
         if (benefitCalculator.isBenefitAvailable()) {
             benefitCalculator.getBenefitResult().forEach((key, value) -> {
                 if (value != 0) {
-                    System.out.println(key + "-" + value + "원");
+                    System.out.println(key + value + "원");
                 }
             });
+        }
+        if (!benefitCalculator.isBenefitAvailable()) {
+            System.out.println("없음");
         }
     }
 

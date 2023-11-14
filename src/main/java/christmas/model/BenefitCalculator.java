@@ -77,7 +77,7 @@ public class BenefitCalculator {
     private void calculateDdaySalePrice() {
         int date = getReservationDate();
         if (date <= 25) {
-            D_DAY_SALE_PRICE = 1000 + (date - 1) * 100;
+            D_DAY_SALE_PRICE -= 1000 + (date - 1) * 100;
         }
     }
 
@@ -85,7 +85,7 @@ public class BenefitCalculator {
         if (!isWeekend()) {
             getReservationOrder().forEach((key, value) -> {
                 if (Menu.isDessert(key)) {
-                    WEEKDAY_SALE_PRICE += value * 2023;
+                    WEEKDAY_SALE_PRICE -= value * 2023;
                 }
             });
         }
@@ -95,7 +95,7 @@ public class BenefitCalculator {
         if (isWeekend()) {
             getReservationOrder().forEach((key, value) -> {
                 if (Menu.isMainDish(key)) {
-                    WEEKEND_SALE_PRICE += value * 2023;
+                    WEEKEND_SALE_PRICE -= value * 2023;
                 }
             });
         }
@@ -103,14 +103,14 @@ public class BenefitCalculator {
 
     private void calculateSpecialSalePrice() {
         if (isSpecialDay()) {
-            SPECIAL_SALE_PRICE += 1000;
+            SPECIAL_SALE_PRICE -= 1000;
         }
     }
 
     private void calculatePresentPrice() {
         if (isPresentAvailable()) {
             PRESENT = "샴페인 1개";
-            PRESENT_PRICE = 25000;
+            PRESENT_PRICE -= 25000;
         }
     }
 
@@ -127,17 +127,17 @@ public class BenefitCalculator {
     }
 
     private void calculateDiscountedTotalPrice() {
-        DISCOUNTED_TOTAL_PRICE = TOTAL_PRICE - TOTAL_BENEFIT_PRICE + PRESENT_PRICE;
+        DISCOUNTED_TOTAL_PRICE = TOTAL_PRICE + TOTAL_BENEFIT_PRICE - PRESENT_PRICE;
     }
 
     private void calculateEventBadge() {
-        if (TOTAL_BENEFIT_PRICE > 5000) {
+        if (TOTAL_BENEFIT_PRICE < -5000) {
             EVENT_BADGE = "별";
         }
-        if (TOTAL_BENEFIT_PRICE > 10000) {
+        if (TOTAL_BENEFIT_PRICE < -10000) {
             EVENT_BADGE = "트리";
         }
-        if (TOTAL_BENEFIT_PRICE > 20000) {
+        if (TOTAL_BENEFIT_PRICE < -20000) {
             EVENT_BADGE = "산타";
         }
     }
