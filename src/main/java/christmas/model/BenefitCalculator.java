@@ -6,7 +6,7 @@ import java.util.Map;
 public class BenefitCalculator {
 
     private static int TOTAL_PRICE = 0;
-    private static int D_DAY_SALE_PRICE = 1000;
+    private static int D_DAY_SALE_PRICE = 0;
 
     private static int WEEKEND_SALE_PRICE = 0;
     private static int WEEKDAY_SALE_PRICE = 0;
@@ -35,7 +35,7 @@ public class BenefitCalculator {
 
     public String getPresent() {
         if (isPresentAvailable()) {
-            PRESENT = "샴페인";
+            PRESENT = "샴페인 1개";
         }
         return PRESENT;
     }
@@ -53,7 +53,7 @@ public class BenefitCalculator {
     private int calculateDdaySalePrice() {
         int date = userOrder.getReservationDate();
         if (date <= 25) {
-            D_DAY_SALE_PRICE += (date - 1) * 100;
+            D_DAY_SALE_PRICE = 1000 + (date - 1) * 100;
         }
         return D_DAY_SALE_PRICE;
     }

@@ -9,9 +9,7 @@ public class OutputView {
         printOrders(benefitCalculator);
         printTotalPrice(benefitCalculator);
         printPresent(benefitCalculator);
-        if (benefitCalculator.isBenefitAvailable()) {
-            printBenefitResult(benefitCalculator);
-        }
+        printBenefitResult(benefitCalculator);
     }
 
     private void printBenefitResult(BenefitCalculator benefitCalculator) {
@@ -24,13 +22,12 @@ public class OutputView {
                 }
             });
         }
-
     }
 
     private void printPresent(BenefitCalculator benefitCalculator) {
         System.out.println();
         System.out.println("<증정 메뉴>");
-        System.out.println(benefitCalculator.getPresent() + " 1개");
+        System.out.println(benefitCalculator.getPresent());
     }
 
     private void printTotalPrice(BenefitCalculator benefitCalculator) {
