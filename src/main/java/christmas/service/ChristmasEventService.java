@@ -10,19 +10,17 @@ public class ChristmasEventService {
 
     private static InputView inputView;
     private static OutputView outputView;
-    private static UserOrder userOrder;
 
     public ChristmasEventService() {
         inputView = new InputView();
         outputView = new OutputView();
-        userOrder = new UserOrder();
     }
 
     public UserOrder requestUserInput() {
         int reservationDate = inputView.readDate();
         Map<String, Integer> reservationOrder = inputView.readOrder();
 
-        return userOrder;
+        return new UserOrder(reservationDate, reservationOrder);
     }
 
     public void requestUserBenefit(UserOrder userOrder) {
