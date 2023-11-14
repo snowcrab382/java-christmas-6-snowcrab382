@@ -101,7 +101,7 @@ public class BenefitCalculator {
 
     private boolean isWeekend() {
         int date = userOrder.getReservationDate();
-        return date % 7 != 1 && date % 7 != 2;
+        return date % 7 == 1 || date % 7 == 2;
     }
 
     public boolean isBenefitAvailable() {
