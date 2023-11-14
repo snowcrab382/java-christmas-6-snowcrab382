@@ -8,6 +8,8 @@ public class BenefitCalculator {
     private static int WEEKEND_SALE_PRICE = 0;
     private static int WEEKDAY_SALE_PRICE = 0;
 
+    private static int SPECIAL_SALE_PRICE = 0;
+
     private static UserOrder userOrder;
 
     public BenefitCalculator(UserOrder userOrder) {
@@ -38,6 +40,18 @@ public class BenefitCalculator {
         return WEEKDAY_SALE_PRICE;
     }
 
+    public int calculateSpecialSalePrice() {
+        if (isSpecialDay()) {
+            SPECIAL_SALE_PRICE += 1000;
+        }
+        return SPECIAL_SALE_PRICE;
+    }
+
+    private boolean isSpecialDay() {
+        int date = userOrder.getReservationDate();
+        return date % 7 == 3 || date == 25;
+    }
+
     private void calculateWeekdaySale() {
         userOrder.getReservationOrder().forEach((key, value) -> {
             if (Menu.isDessert(key)) {
@@ -54,7 +68,7 @@ public class BenefitCalculator {
         });
     }
 
-    private static boolean isWeekend() {
+    private boolean isWeekend() {
         int date = userOrder.getReservationDate();
         return date % 7 == 1 || date % 7 == 2;
     }
