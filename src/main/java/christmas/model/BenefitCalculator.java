@@ -6,6 +6,8 @@ import java.util.Map;
 public class BenefitCalculator {
 
     private static int TOTAL_PRICE = 0;
+    private static int DISCOUNTED_TOTAL_PRICE = 0;
+
     private static int D_DAY_SALE_PRICE = 0;
 
     private static int WEEKEND_SALE_PRICE = 0;
@@ -17,7 +19,7 @@ public class BenefitCalculator {
     private static int PRESENT_PRICE = 0;
 
 
-    private static Map<String, Integer> TOTAL_BENEFIT = new HashMap<>();
+    private static Map<String, Integer> TOTAL_BENEFIT_RESULT = new HashMap<>();
     private static int TOTAL_BENEFIT_PRICE = 0;
 
     private static UserOrder userOrder;
@@ -31,6 +33,7 @@ public class BenefitCalculator {
         calculateSpecialSalePrice();
         calculatePresentPrice();
         calculateTotalBenefit();
+        calculateDiscountedTotalPrice();
     }
 
     public Map<String, Integer> getReservationOrder() {
@@ -46,10 +49,19 @@ public class BenefitCalculator {
     }
 
     public String getPresent() {
-        if (isPresentAvailable()) {
-            PRESENT = "샴페인 1개";
-        }
         return PRESENT;
+    }
+
+    public Map<String, Integer> getBenefitResult() {
+        return TOTAL_BENEFIT_RESULT;
+    }
+
+    public int getBenefitPrice() {
+        return TOTAL_BENEFIT_PRICE;
+    }
+
+    public int getDiscountedTotalPrice() {
+        return DISCOUNTED_TOTAL_PRICE;
     }
 
     private void calculateTotalPrice() {
@@ -93,20 +105,31 @@ public class BenefitCalculator {
 
     private void calculatePresentPrice() {
         if (isPresentAvailable()) {
+            PRESENT = "샴페인 1개";
             PRESENT_PRICE = 25000;
         }
     }
 
     private void calculateTotalBenefit() {
-        TOTAL_BENEFIT.put("크리스마스 디데이 할인: ", D_DAY_SALE_PRICE);
-        TOTAL_BENEFIT.put("평일 할인: ", WEEKDAY_SALE_PRICE);
-        TOTAL_BENEFIT.put("주말 할인: ", WEEKEND_SALE_PRICE);
-        TOTAL_BENEFIT.put("특별 할인: ", SPECIAL_SALE_PRICE);
-        TOTAL_BENEFIT.put("증정 이벤트: ", PRESENT_PRICE);
+        TOTAL_BENEFIT_RESULT.put("크리스마스 디데이 할인: ", D_DAY_SALE_PRICE);
+        TOTAL_BENEFIT_RESULT.put("평일 할인: ", WEEKDAY_SALE_PRICE);
+        TOTAL_BENEFIT_RESULT.put("주말 할인: ", WEEKEND_SALE_PRICE);
+        TOTAL_BENEFIT_RESULT.put("특별 할인: ", SPECIAL_SALE_PRICE);
 
-        TOTAL_BENEFIT.forEach((key, value) -> {
+        //총 혜택금액에서 증정 이벤트금액은 제외
+        TOTAL_BENEFIT_RESULT.forEach((key, value) -> {
             TOTAL_BENEFIT_PRICE += value;
         });
+
+        TOTAL_BENEFIT_RESULT.put("증정 이벤트: ", PRESENT_PRICE);
+    }
+
+    private void calculateDiscountedTotalPrice() {
+        DISCOUNTED_TOTAL_PRICE = TOTAL_PRICE - TOTAL_BENEFIT_PRICE;
+    }
+
+    public boolean isBenefitAvailable() {
+        return TOTAL_PRICE >= 10000;
     }
 
     private boolean isSpecialDay() {
@@ -119,12 +142,7 @@ public class BenefitCalculator {
         return date % 7 == 1 || date % 7 == 2;
     }
 
-    public boolean isBenefitAvailable() {
-        return TOTAL_PRICE >= 10000;
-    }
-
-    public boolean isPresentAvailable() {
+    private boolean isPresentAvailable() {
         return TOTAL_PRICE >= 120000;
     }
-
 }
