@@ -1,5 +1,7 @@
 package christmas.model;
 
+import java.util.Map;
+
 public class BenefitCalculator {
 
     private static int TOTAL_PRICE = 0;
@@ -18,7 +20,7 @@ public class BenefitCalculator {
 
     public int calculateTotalPrice() {
         userOrder.getReservationOrder().forEach((key, value) -> {
-            TOTAL_PRICE += Menu.valueOf(key).getPrice() * value;
+            TOTAL_PRICE += Menu.getPrice(key) * value;
         });
         return TOTAL_PRICE;
     }
@@ -74,4 +76,11 @@ public class BenefitCalculator {
     }
 
 
+    public Map<String, Integer> getReservationOrder() {
+        return userOrder.getReservationOrder();
+    }
+
+    public int getReservationDate() {
+        return userOrder.getReservationDate();
+    }
 }
