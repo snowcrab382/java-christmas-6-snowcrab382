@@ -45,6 +45,24 @@ public enum Menu {
         return false;
     }
 
+    public static boolean isMainDish(String foodName) {
+        for (Menu value : Menu.values()) {
+            if (value.foodNames.equals(foodName)) {
+                return value.category.equals("MAIN_DISH");
+            }
+        }
+        return false;
+    }
+
+    public static boolean isDessert(String foodName) {
+        for (Menu value : Menu.values()) {
+            if (value.foodNames.equals(foodName)) {
+                return value.category.equals("DESSERT");
+            }
+        }
+        return false;
+    }
+
     public int getPrice() {
         return price;
     }
