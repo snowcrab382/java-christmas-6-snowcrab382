@@ -32,6 +32,7 @@ public class OrderValidator {
         for (String order : orders) {
             List<String> menuAndCount = List.of(order.split("-"));
             if (menuAndCount.size() != 2) {
+                reservationOrder.clear();
                 throw new IllegalArgumentException(WRONG_ORDER.getMessage());
             }
         }
@@ -44,6 +45,7 @@ public class OrderValidator {
             try {
                 Integer.parseInt(menuAndCount.get(1));
             } catch (NumberFormatException e) {
+                reservationOrder.clear();
                 throw new IllegalArgumentException(WRONG_ORDER.getMessage());
             }
         }
@@ -56,6 +58,7 @@ public class OrderValidator {
             int count = Integer.parseInt(menuAndCount.get(1));
 
             if (reservationOrder.containsKey(foodName)) {
+                reservationOrder.clear();
                 throw new IllegalArgumentException(WRONG_ORDER.getMessage());
             }
             reservationOrder.put(foodName, count);
@@ -65,6 +68,7 @@ public class OrderValidator {
     private void isInMenu() {
         for (String foodName : reservationOrder.keySet()) {
             if (!Menu.isInMenu(foodName)) {
+                reservationOrder.clear();
                 throw new IllegalArgumentException(WRONG_ORDER.getMessage());
             }
         }
@@ -78,6 +82,7 @@ public class OrderValidator {
             }
         }
         if (flag) {
+            reservationOrder.clear();
             throw new IllegalArgumentException(WRONG_ORDER.getMessage());
         }
     }
@@ -85,6 +90,7 @@ public class OrderValidator {
     private void isCountInRange() {
         for (int count : reservationOrder.values()) {
             if (count < 1) {
+                reservationOrder.clear();
                 throw new IllegalArgumentException(WRONG_ORDER.getMessage());
             }
         }
@@ -96,6 +102,7 @@ public class OrderValidator {
             totalCount += count;
         }
         if (totalCount > MAX_ORDER_COUNT) {
+            reservationOrder.clear();
             throw new IllegalArgumentException(WRONG_ORDER.getMessage());
         }
     }
