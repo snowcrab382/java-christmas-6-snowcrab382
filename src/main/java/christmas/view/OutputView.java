@@ -16,7 +16,7 @@ public class OutputView {
     private static final String TOTAL_PRICE_MESSAGE = "<할인 전 총주문 금액>";
     private static final String ORDER_MESSAGE = "<주문 메뉴>";
 
-    public void printBenefit(BenefitCalculator benefitCalculator) {
+    public void printResult(BenefitCalculator benefitCalculator) {
         System.out.printf(BENEFIT_PREVIEW_MESSAGE, benefitCalculator.getReservationDate());
         printOrders(benefitCalculator);
         printTotalPrice(benefitCalculator);
