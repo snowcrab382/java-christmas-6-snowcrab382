@@ -7,7 +7,7 @@ import christmas.model.BenefitCalculator;
 
 public class OutputView {
 
-    public static final String BENEFIT_PREVIEW_MESSAGE = "12월 %d일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!";
+    public static final String BENEFIT_PREVIEW_MESSAGE = "12월 %d일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!%n";
     public static final String BADGE_MESSAGE = "<12월 이벤트 배지>";
     public static final String EXPECTED_PAY_MESSAGE = "<할인 후 예상 결제 금액>";
     public static final String TOTAL_BENEFIT_MESSAGE = "<총혜택 금액>";
@@ -17,7 +17,7 @@ public class OutputView {
     public static final String ORDER_MESSAGE = "<주문 메뉴>";
 
     public void printBenefit(BenefitCalculator benefitCalculator) {
-        System.out.println(String.format(BENEFIT_PREVIEW_MESSAGE, benefitCalculator.getReservationDate()));
+        System.out.printf(BENEFIT_PREVIEW_MESSAGE, benefitCalculator.getReservationDate());
         printOrders(benefitCalculator);
         printTotalPrice(benefitCalculator);
         printPresent(benefitCalculator);
@@ -51,7 +51,7 @@ public class OutputView {
         if (benefitCalculator.isBenefitAvailable()) {
             benefitCalculator.getBenefitResult().forEach((key, value) -> {
                 if (value != 0) {
-                    System.out.println(key + formatMoney(value));
+                    System.out.printf("%s: %s%n", key, formatMoney(value));
                 }
             });
         }
@@ -76,7 +76,7 @@ public class OutputView {
         System.out.println();
         System.out.println(ORDER_MESSAGE);
         benefitCalculator.getReservationOrder().forEach((key, value) -> {
-            System.out.println(key + " " + value + "개");
+            System.out.printf("%s %d개%n", key, value);
         });
 
     }

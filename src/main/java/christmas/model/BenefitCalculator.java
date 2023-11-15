@@ -129,11 +129,11 @@ public class BenefitCalculator {
     }
 
     private void calculateTotalBenefit() {
-        TOTAL_BENEFIT_RESULT.put("크리스마스 디데이 할인: ", D_DAY_SALE_PRICE);
-        TOTAL_BENEFIT_RESULT.put("평일 할인: ", WEEKDAY_SALE_PRICE);
-        TOTAL_BENEFIT_RESULT.put("주말 할인: ", WEEKEND_SALE_PRICE);
-        TOTAL_BENEFIT_RESULT.put("특별 할인: ", SPECIAL_SALE_PRICE);
-        TOTAL_BENEFIT_RESULT.put("증정 이벤트: ", PRESENT_PRICE);
+        TOTAL_BENEFIT_RESULT.put("크리스마스 디데이 할인", D_DAY_SALE_PRICE);
+        TOTAL_BENEFIT_RESULT.put("평일 할인", WEEKDAY_SALE_PRICE);
+        TOTAL_BENEFIT_RESULT.put("주말 할인", WEEKEND_SALE_PRICE);
+        TOTAL_BENEFIT_RESULT.put("특별 할인", SPECIAL_SALE_PRICE);
+        TOTAL_BENEFIT_RESULT.put("증정 이벤트", PRESENT_PRICE);
 
         TOTAL_BENEFIT_RESULT.forEach((key, value) -> {
             TOTAL_BENEFIT_PRICE += value;
