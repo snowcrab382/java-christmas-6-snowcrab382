@@ -1,5 +1,6 @@
 package christmas.view;
 
+
 import static christmas.constant.ErrorMessages.WRONG_DATE;
 import static christmas.constant.ErrorMessages.WRONG_ORDER;
 
@@ -14,7 +15,8 @@ public class InputView {
 
     public static final String REQUEST_DATE_MESSAGE = "12월 중 식당 예상 방문 날짜는 언제인가요? (숫자만 입력해 주세요!)";
     public static final String REQUEST_ORDER_MESSAGE = "주문하실 메뉴를 메뉴와 개수를 알려 주세요. (e.g. 해산물파스타-2,레드와인-1,초코케이크-1)";
-    
+    public static final String EVENT_START_MESSAGE = "안녕하세요! 우테코 식당 12월 이벤트 플래너입니다.";
+
     private static int reservationDate;
     private static Map<String, Integer> reservationOrder;
 
@@ -23,6 +25,7 @@ public class InputView {
     }
 
     public int readDate() {
+        System.out.println(EVENT_START_MESSAGE);
         System.out.println(REQUEST_DATE_MESSAGE);
         String input = Console.readLine();
         validateDate(input);
@@ -57,7 +60,7 @@ public class InputView {
         for (String order : orders) {
             List<String> menuAndCount = List.of(order.split("-"));
             if (menuAndCount.size() != 2) {
-                throw new IllegalArgumentException(WRONG_ORDER);
+                throw new IllegalArgumentException(WRONG_ORDER.getMessage());
             }
         }
         return orders;
@@ -69,7 +72,7 @@ public class InputView {
             try {
                 Integer.parseInt(menuAndCount.get(1));
             } catch (NumberFormatException e) {
-                throw new IllegalArgumentException(WRONG_ORDER);
+                throw new IllegalArgumentException(WRONG_ORDER.getMessage());
             }
         }
     }
@@ -81,7 +84,7 @@ public class InputView {
             int count = Integer.parseInt(menuAndCount.get(1));
 
             if (reservationOrder.containsKey(foodName)) {
-                throw new IllegalArgumentException(WRONG_ORDER);
+                throw new IllegalArgumentException(WRONG_ORDER.getMessage());
             }
             reservationOrder.put(foodName, count);
         }
@@ -90,7 +93,7 @@ public class InputView {
     private void isInMenu() {
         for (String foodName : reservationOrder.keySet()) {
             if (!Menu.isInMenu(foodName)) {
-                throw new IllegalArgumentException(WRONG_ORDER);
+                throw new IllegalArgumentException(WRONG_ORDER.getMessage());
             }
         }
     }
@@ -103,14 +106,14 @@ public class InputView {
             }
         }
         if (flag) {
-            throw new IllegalArgumentException(WRONG_ORDER);
+            throw new IllegalArgumentException(WRONG_ORDER.getMessage());
         }
     }
 
     private void isCountInRange() {
         for (int count : reservationOrder.values()) {
             if (count < 1) {
-                throw new IllegalArgumentException(WRONG_ORDER);
+                throw new IllegalArgumentException(WRONG_ORDER.getMessage());
             }
         }
     }
@@ -121,7 +124,7 @@ public class InputView {
             totalCount += count;
         }
         if (totalCount > 20) {
-            throw new IllegalArgumentException(WRONG_ORDER);
+            throw new IllegalArgumentException(WRONG_ORDER.getMessage());
         }
     }
 
@@ -140,13 +143,13 @@ public class InputView {
         try {
             reservationDate = Integer.parseInt(input);
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(WRONG_DATE);
+            throw new IllegalArgumentException(WRONG_DATE.getMessage());
         }
     }
 
     private void isInRange() {
         if (reservationDate < 1 || reservationDate > 31) {
-            throw new IllegalArgumentException(WRONG_DATE);
+            throw new IllegalArgumentException(WRONG_DATE.getMessage());
         }
     }
 }
