@@ -4,7 +4,7 @@ import static christmas.constant.Constants.MAX_ORDER_COUNT;
 import static christmas.constant.ErrorMessages.WRONG_ORDER;
 
 import christmas.model.Menu;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +13,7 @@ public class OrderValidator {
     private static Map<String, Integer> reservationOrder;
 
     public OrderValidator() {
-        reservationOrder = new HashMap<>();
+        reservationOrder = new LinkedHashMap<>();
     }
 
     public Map<String, Integer> validate(String input) {

@@ -14,7 +14,7 @@ import static christmas.constant.Constants.TREE_BADGE;
 import static christmas.constant.Constants.WEEKDAY_SALE_DEFAULT;
 import static christmas.constant.Constants.WEEKEND_SALE_DEFAULT;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class BenefitCalculator {
@@ -30,7 +30,7 @@ public class BenefitCalculator {
     private static String PRESENT = DEFAULT_CONDITION;
     private static int PRESENT_PRICE = 0;
 
-    private static Map<String, Integer> TOTAL_BENEFIT_RESULT = new HashMap<>();
+    private static Map<String, Integer> TOTAL_BENEFIT_RESULT = new LinkedHashMap<>();
     private static int TOTAL_BENEFIT_PRICE = 0;
 
     private static String EVENT_BADGE = DEFAULT_CONDITION;
