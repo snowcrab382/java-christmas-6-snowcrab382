@@ -14,7 +14,7 @@ public class DateValidator {
         return reservationDate;
     }
 
-    public void isNumber(String input) {
+    private void isNumber(String input) {
         try {
             reservationDate = Integer.parseInt(input);
         } catch (NumberFormatException e) {
@@ -22,7 +22,7 @@ public class DateValidator {
         }
     }
 
-    public void isInRange() {
+    private void isInRange() {
         if (reservationDate < MIN_INPUT_DATE || reservationDate > MAX_INPUT_DATE) {
             throw new IllegalArgumentException(WRONG_DATE.getMessage());
         }
