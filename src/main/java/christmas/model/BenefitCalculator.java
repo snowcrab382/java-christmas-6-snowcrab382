@@ -30,7 +30,7 @@ public class BenefitCalculator {
     private static String PRESENT = DEFAULT_CONDITION;
     private static int PRESENT_PRICE = 0;
 
-    private static Map<String, Integer> TOTAL_BENEFIT_RESULT = new LinkedHashMap<>();
+    private static LinkedHashMap<String, Integer> TOTAL_BENEFIT_RESULT = new LinkedHashMap<>();
     private static int TOTAL_BENEFIT_PRICE = 0;
 
     private static String EVENT_BADGE = DEFAULT_CONDITION;
