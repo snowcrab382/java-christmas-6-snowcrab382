@@ -9,6 +9,7 @@ import static christmas.constant.ErrorMessages.WRONG_ORDER;
 
 import camp.nextstep.edu.missionutils.Console;
 import christmas.model.Menu;
+import christmas.validator.DateValidator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,16 +24,23 @@ public class InputView {
     private static int reservationDate;
     private static Map<String, Integer> reservationOrder;
 
+    private static DateValidator dateValidator;
+
     public InputView() {
         reservationOrder = new HashMap<>();
+        dateValidator = new DateValidator();
     }
 
     public int readDate() {
         System.out.println(EVENT_START_MESSAGE);
         System.out.println(REQUEST_DATE_MESSAGE);
-        String input = Console.readLine();
-        validateDate(input);
-        return reservationDate;
+        try {
+            String input = Console.readLine();
+            return dateValidator.validate(input);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return readDate();
+        }
     }
 
     public Map<String, Integer> readOrder() {
@@ -42,7 +50,17 @@ public class InputView {
         return reservationOrder;
     }
 
-    private void validateOrder(String input) {
+    public void validateDate(String input) {
+        try {
+            isNumber(input);
+            isInRange();
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            readDate();
+        }
+    }
+
+    public void validateOrder(String input) {
         try {
             List<String> orders = isCorrectFormat(input);
             isCountNumber(orders);
@@ -128,17 +146,6 @@ public class InputView {
         }
         if (totalCount > MAX_ORDER_COUNT) {
             throw new IllegalArgumentException(WRONG_ORDER.getMessage());
-        }
-    }
-
-
-    private void validateDate(String input) {
-        try {
-            isNumber(input);
-            isInRange();
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            readDate();
         }
     }
 
