@@ -18,26 +18,37 @@ import java.util.LinkedHashMap;
 
 public class BenefitCalculator {
 
-    private static int TOTAL_PRICE = 0;
-    private static int DISCOUNTED_TOTAL_PRICE = 0;
+    private static int totalPrice;
+    private static int discountedTotalPrice;
 
-    private static int D_DAY_SALE_PRICE = 0;
-    private static int WEEKEND_SALE_PRICE = 0;
-    private static int WEEKDAY_SALE_PRICE = 0;
-    private static int SPECIAL_SALE_PRICE = 0;
+    private static int dDaySalePrice;
+    private static int weekendSalePrice;
+    private static int weekdaySalePrice;
+    private static int specialSalePrice;
 
-    private static String PRESENT = DEFAULT_CONDITION;
-    private static int PRESENT_PRICE = 0;
+    private static String present;
+    private static int presentPrice;
 
-    private static LinkedHashMap<String, Integer> TOTAL_BENEFIT_RESULT = new LinkedHashMap<>();
-    private static int TOTAL_BENEFIT_PRICE = 0;
+    private static LinkedHashMap<String, Integer> totalBenefitResult;
+    private static int totalBenefitPrice;
 
-    private static String EVENT_BADGE = DEFAULT_CONDITION;
+    private static String eventBadge;
 
     private static UserOrder userOrder;
 
     public BenefitCalculator(UserOrder userOrder) {
         this.userOrder = userOrder;
+        totalPrice = 0;
+        discountedTotalPrice = 0;
+        dDaySalePrice = 0;
+        weekendSalePrice = 0;
+        weekdaySalePrice = 0;
+        specialSalePrice = 0;
+        present = DEFAULT_CONDITION;
+        presentPrice = 0;
+        totalBenefitResult = new LinkedHashMap<>();
+        totalBenefitPrice = 0;
+        eventBadge = DEFAULT_CONDITION;
     }
 
     public void calculate() {
@@ -61,39 +72,39 @@ public class BenefitCalculator {
     }
 
     public int getTotalPrice() {
-        return TOTAL_PRICE;
+        return totalPrice;
     }
 
     public String getPresent() {
-        return PRESENT;
+        return present;
     }
 
     public LinkedHashMap<String, Integer> getBenefitResult() {
-        return TOTAL_BENEFIT_RESULT;
+        return totalBenefitResult;
     }
 
     public int getBenefitPrice() {
-        return TOTAL_BENEFIT_PRICE;
+        return totalBenefitPrice;
     }
 
     public int getDiscountedTotalPrice() {
-        return DISCOUNTED_TOTAL_PRICE;
+        return discountedTotalPrice;
     }
 
     public String getEventBadge() {
-        return EVENT_BADGE;
+        return eventBadge;
     }
 
     private void TotalPrice() {
         getReservationOrder().forEach((key, value) -> {
-            TOTAL_PRICE += Menu.getPrice(key) * value;
+            totalPrice += Menu.getPrice(key) * value;
         });
     }
 
     private void DdaySalePrice() {
         int date = getReservationDate();
         if (date <= D_DAY_SALE_DATE) {
-            D_DAY_SALE_PRICE -= D_DAY_SALE_DEFAULT + (date - 1) * D_DAY_INCREASE_PRICE;
+            dDaySalePrice -= D_DAY_SALE_DEFAULT + (date - 1) * D_DAY_INCREASE_PRICE;
         }
     }
 
@@ -101,7 +112,7 @@ public class BenefitCalculator {
         if (!isWeekend()) {
             getReservationOrder().forEach((key, value) -> {
                 if (Menu.isDessert(key)) {
-                    WEEKDAY_SALE_PRICE -= value * WEEKDAY_SALE_DEFAULT;
+                    weekdaySalePrice -= value * WEEKDAY_SALE_DEFAULT;
                 }
             });
         }
@@ -111,7 +122,7 @@ public class BenefitCalculator {
         if (isWeekend()) {
             getReservationOrder().forEach((key, value) -> {
                 if (Menu.isMainDish(key)) {
-                    WEEKEND_SALE_PRICE -= value * WEEKEND_SALE_DEFAULT;
+                    weekendSalePrice -= value * WEEKEND_SALE_DEFAULT;
                 }
             });
         }
@@ -119,47 +130,47 @@ public class BenefitCalculator {
 
     private void SpecialSalePrice() {
         if (isSpecialDay()) {
-            SPECIAL_SALE_PRICE -= SPECIAL_SALE_DEFAULT;
+            specialSalePrice -= SPECIAL_SALE_DEFAULT;
         }
     }
 
     private void PresentPrice() {
         if (isPresentAvailable()) {
-            PRESENT = "샴페인 1개";
-            PRESENT_PRICE -= PRESENT_CHAMPAGNE_PRICE;
+            present = "샴페인 1개";
+            presentPrice -= PRESENT_CHAMPAGNE_PRICE;
         }
     }
 
     private void TotalBenefit() {
-        TOTAL_BENEFIT_RESULT.put("크리스마스 디데이 할인", D_DAY_SALE_PRICE);
-        TOTAL_BENEFIT_RESULT.put("평일 할인", WEEKDAY_SALE_PRICE);
-        TOTAL_BENEFIT_RESULT.put("주말 할인", WEEKEND_SALE_PRICE);
-        TOTAL_BENEFIT_RESULT.put("특별 할인", SPECIAL_SALE_PRICE);
-        TOTAL_BENEFIT_RESULT.put("증정 이벤트", PRESENT_PRICE);
+        totalBenefitResult.put("크리스마스 디데이 할인", dDaySalePrice);
+        totalBenefitResult.put("평일 할인", weekdaySalePrice);
+        totalBenefitResult.put("주말 할인", weekendSalePrice);
+        totalBenefitResult.put("특별 할인", specialSalePrice);
+        totalBenefitResult.put("증정 이벤트", presentPrice);
 
-        TOTAL_BENEFIT_RESULT.forEach((key, value) -> {
-            TOTAL_BENEFIT_PRICE += value;
+        totalBenefitResult.forEach((key, value) -> {
+            totalBenefitPrice += value;
         });
     }
 
     private void DiscountedTotalPrice() {
-        DISCOUNTED_TOTAL_PRICE = TOTAL_PRICE + TOTAL_BENEFIT_PRICE - PRESENT_PRICE;
+        discountedTotalPrice = totalPrice + totalBenefitPrice - presentPrice;
     }
 
     private void EventBadge() {
-        if (TOTAL_BENEFIT_PRICE < -5000) {
-            EVENT_BADGE = STAR_BADGE;
+        if (totalBenefitPrice < -5000) {
+            eventBadge = STAR_BADGE;
         }
-        if (TOTAL_BENEFIT_PRICE < -10000) {
-            EVENT_BADGE = TREE_BADGE;
+        if (totalBenefitPrice < -10000) {
+            eventBadge = TREE_BADGE;
         }
-        if (TOTAL_BENEFIT_PRICE < -20000) {
-            EVENT_BADGE = SANTA_BADGE;
+        if (totalBenefitPrice < -20000) {
+            eventBadge = SANTA_BADGE;
         }
     }
 
     public boolean isBenefitAvailable() {
-        return TOTAL_PRICE >= MIN_BENEFITABLE_PRICE;
+        return totalPrice >= MIN_BENEFITABLE_PRICE;
     }
 
     private boolean isSpecialDay() {
@@ -173,6 +184,6 @@ public class BenefitCalculator {
     }
 
     private boolean isPresentAvailable() {
-        return TOTAL_PRICE >= MIN_PRESENTABLE_PRICE;
+        return totalPrice >= MIN_PRESENTABLE_PRICE;
     }
 }
