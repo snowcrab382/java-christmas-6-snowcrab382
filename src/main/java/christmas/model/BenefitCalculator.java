@@ -174,13 +174,11 @@ public class BenefitCalculator {
     }
 
     private boolean isSpecialDay() {
-        int date = getReservationDate();
-        return date % 7 == 3 || date == 25;
+        return getReservationDate() % 7 == 3 || getReservationDate() == 25;
     }
 
     private boolean isWeekend() {
-        int date = getReservationDate();
-        return date % 7 == 1 || date % 7 == 2;
+        return getReservationDate() % 7 == 1 || getReservationDate() % 7 == 2;
     }
 
     private boolean isPresentAvailable() {
