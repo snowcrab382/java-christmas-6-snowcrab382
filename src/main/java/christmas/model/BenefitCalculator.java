@@ -1,5 +1,19 @@
 package christmas.model;
 
+import static christmas.constant.Constants.DEFAULT_CONDITION;
+import static christmas.constant.Constants.D_DAY_INCREASE_PRICE;
+import static christmas.constant.Constants.D_DAY_SALE_DATE;
+import static christmas.constant.Constants.D_DAY_SALE_DEFAULT;
+import static christmas.constant.Constants.MIN_BENEFITABLE_PRICE;
+import static christmas.constant.Constants.MIN_PRESENTABLE_PRICE;
+import static christmas.constant.Constants.PRESENT_CHAMPAGNE_PRICE;
+import static christmas.constant.Constants.SANTA_BADGE;
+import static christmas.constant.Constants.SPECIAL_SALE_DEFAULT;
+import static christmas.constant.Constants.STAR_BADGE;
+import static christmas.constant.Constants.TREE_BADGE;
+import static christmas.constant.Constants.WEEKDAY_SALE_DEFAULT;
+import static christmas.constant.Constants.WEEKEND_SALE_DEFAULT;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,13 +27,13 @@ public class BenefitCalculator {
     private static int WEEKDAY_SALE_PRICE = 0;
     private static int SPECIAL_SALE_PRICE = 0;
 
-    private static String PRESENT = "없음";
+    private static String PRESENT = DEFAULT_CONDITION;
     private static int PRESENT_PRICE = 0;
 
     private static Map<String, Integer> TOTAL_BENEFIT_RESULT = new HashMap<>();
     private static int TOTAL_BENEFIT_PRICE = 0;
 
-    private static String EVENT_BADGE = "없음";
+    private static String EVENT_BADGE = DEFAULT_CONDITION;
 
     private static UserOrder userOrder;
 
@@ -76,8 +90,8 @@ public class BenefitCalculator {
 
     private void calculateDdaySalePrice() {
         int date = getReservationDate();
-        if (date <= 25) {
-            D_DAY_SALE_PRICE -= 1000 + (date - 1) * 100;
+        if (date <= D_DAY_SALE_DATE) {
+            D_DAY_SALE_PRICE -= D_DAY_SALE_DEFAULT + (date - 1) * D_DAY_INCREASE_PRICE;
         }
     }
 
@@ -85,7 +99,7 @@ public class BenefitCalculator {
         if (!isWeekend()) {
             getReservationOrder().forEach((key, value) -> {
                 if (Menu.isDessert(key)) {
-                    WEEKDAY_SALE_PRICE -= value * 2023;
+                    WEEKDAY_SALE_PRICE -= value * WEEKDAY_SALE_DEFAULT;
                 }
             });
         }
@@ -95,7 +109,7 @@ public class BenefitCalculator {
         if (isWeekend()) {
             getReservationOrder().forEach((key, value) -> {
                 if (Menu.isMainDish(key)) {
-                    WEEKEND_SALE_PRICE -= value * 2023;
+                    WEEKEND_SALE_PRICE -= value * WEEKEND_SALE_DEFAULT;
                 }
             });
         }
@@ -103,14 +117,14 @@ public class BenefitCalculator {
 
     private void calculateSpecialSalePrice() {
         if (isSpecialDay()) {
-            SPECIAL_SALE_PRICE -= 1000;
+            SPECIAL_SALE_PRICE -= SPECIAL_SALE_DEFAULT;
         }
     }
 
     private void calculatePresentPrice() {
         if (isPresentAvailable()) {
             PRESENT = "샴페인 1개";
-            PRESENT_PRICE -= 25000;
+            PRESENT_PRICE -= PRESENT_CHAMPAGNE_PRICE;
         }
     }
 
@@ -132,18 +146,18 @@ public class BenefitCalculator {
 
     private void calculateEventBadge() {
         if (TOTAL_BENEFIT_PRICE < -5000) {
-            EVENT_BADGE = "별";
+            EVENT_BADGE = STAR_BADGE;
         }
         if (TOTAL_BENEFIT_PRICE < -10000) {
-            EVENT_BADGE = "트리";
+            EVENT_BADGE = TREE_BADGE;
         }
         if (TOTAL_BENEFIT_PRICE < -20000) {
-            EVENT_BADGE = "산타";
+            EVENT_BADGE = SANTA_BADGE;
         }
     }
 
     public boolean isBenefitAvailable() {
-        return TOTAL_PRICE >= 10000;
+        return TOTAL_PRICE >= MIN_BENEFITABLE_PRICE;
     }
 
     private boolean isSpecialDay() {
@@ -157,6 +171,6 @@ public class BenefitCalculator {
     }
 
     private boolean isPresentAvailable() {
-        return TOTAL_PRICE >= 120000;
+        return TOTAL_PRICE >= MIN_PRESENTABLE_PRICE;
     }
 }
