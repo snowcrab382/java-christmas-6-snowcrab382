@@ -6,6 +6,9 @@ public class Constants {
     public static final String STAR_BADGE = "별";
     public static final String TREE_BADGE = "트리";
     public static final String SANTA_BADGE = "산타";
+    public static final int MAX_ORDER_COUNT = 20;
+    public static final int MIN_INPUT_DATE = 1;
+    public static final int MAX_INPUT_DATE = 31;
     public static final int D_DAY_SALE_DEFAULT = 1000;
     public static final int D_DAY_SALE_DATE = 25;
     public static final int D_DAY_INCREASE_PRICE = 100;

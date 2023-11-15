@@ -1,6 +1,9 @@
 package christmas.view;
 
 
+import static christmas.constant.Constants.MAX_INPUT_DATE;
+import static christmas.constant.Constants.MAX_ORDER_COUNT;
+import static christmas.constant.Constants.MIN_INPUT_DATE;
 import static christmas.constant.ErrorMessages.WRONG_DATE;
 import static christmas.constant.ErrorMessages.WRONG_ORDER;
 
@@ -123,7 +126,7 @@ public class InputView {
         for (int count : reservationOrder.values()) {
             totalCount += count;
         }
-        if (totalCount > 20) {
+        if (totalCount > MAX_ORDER_COUNT) {
             throw new IllegalArgumentException(WRONG_ORDER.getMessage());
         }
     }
@@ -148,7 +151,7 @@ public class InputView {
     }
 
     private void isInRange() {
-        if (reservationDate < 1 || reservationDate > 31) {
+        if (reservationDate < MIN_INPUT_DATE || reservationDate > MAX_INPUT_DATE) {
             throw new IllegalArgumentException(WRONG_DATE.getMessage());
         }
     }
