@@ -63,6 +63,15 @@ public enum Menu {
         return false;
     }
 
+    public static String getFoodNames(String foodName) {
+        for (Menu value : Menu.values()) {
+            if (value.foodNames.equals(foodName)) {
+                return value.foodNames;
+            }
+        }
+        return null;
+    }
+
     public static int getPrice(String foodName) {
         for (Menu value : Menu.values()) {
             if (value.foodNames.equals(foodName)) {
