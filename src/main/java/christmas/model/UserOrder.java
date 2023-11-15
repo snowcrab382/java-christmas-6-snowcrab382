@@ -1,13 +1,13 @@
 package christmas.model;
 
-import java.util.Map;
+import java.util.LinkedHashMap;
 
 public class UserOrder {
 
     private int reservationDate;
-    private Map<String, Integer> reservationOrder;
+    private LinkedHashMap<String, Integer> reservationOrder;
 
-    public UserOrder(int reservationDate, Map<String, Integer> reservationOrder) {
+    public UserOrder(int reservationDate, LinkedHashMap<String, Integer> reservationOrder) {
         this.reservationDate = reservationDate;
         this.reservationOrder = reservationOrder;
     }
@@ -16,7 +16,7 @@ public class UserOrder {
         return reservationDate;
     }
 
-    public Map<String, Integer> getReservationOrder() {
+    public LinkedHashMap<String, Integer> getReservationOrder() {
         return reservationOrder;
     }
 

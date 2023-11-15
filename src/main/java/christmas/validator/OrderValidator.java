@@ -6,17 +6,16 @@ import static christmas.constant.ErrorMessages.WRONG_ORDER;
 import christmas.model.Menu;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 public class OrderValidator {
 
-    private static Map<String, Integer> reservationOrder;
+    private static LinkedHashMap<String, Integer> reservationOrder;
 
     public OrderValidator() {
         reservationOrder = new LinkedHashMap<>();
     }
 
-    public Map<String, Integer> validate(String input) {
+    public LinkedHashMap<String, Integer> validate(String input) {
         List<String> orders = isCorrectFormat(input);
         isCountNumber(orders);
         isMenuDuplicate(orders);

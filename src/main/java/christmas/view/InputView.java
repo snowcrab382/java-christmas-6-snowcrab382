@@ -4,7 +4,7 @@ package christmas.view;
 import camp.nextstep.edu.missionutils.Console;
 import christmas.validator.DateValidator;
 import christmas.validator.OrderValidator;
-import java.util.Map;
+import java.util.LinkedHashMap;
 
 
 public class InputView {
@@ -32,7 +32,7 @@ public class InputView {
         }
     }
 
-    public Map<String, Integer> readOrder() {
+    public LinkedHashMap<String, Integer> readOrder() {
         System.out.println(REQUEST_ORDER_MESSAGE);
         try {
             String input = Console.readLine();

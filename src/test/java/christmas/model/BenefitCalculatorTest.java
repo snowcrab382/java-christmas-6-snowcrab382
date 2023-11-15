@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class BenefitCalculatorTest {
@@ -14,7 +15,7 @@ class BenefitCalculatorTest {
     @BeforeAll
     static void setBenefitCalculator() {
         int reservationDate = 24;
-        Map<String, Integer> reservationOrder = new LinkedHashMap<>();
+        LinkedHashMap<String, Integer> reservationOrder = new LinkedHashMap<>();
         reservationOrder.put("해산물파스타", 1);
         reservationOrder.put("레드와인", 1);
         reservationOrder.put("초코케이크", 1);
@@ -23,8 +24,9 @@ class BenefitCalculatorTest {
         benefitCalculator = new BenefitCalculator(userOrder);
     }
 
+    @DisplayName("입력된 주문은 ")
     @Test
-    void getReservationOrder() {
+    void getReservationOrderTest() {
         assertThat(benefitCalculator.getReservationOrder()).isEqualTo(Map.of(
                 "해산물파스타", 1,
                 "레드와인", 1,
@@ -33,22 +35,22 @@ class BenefitCalculatorTest {
     }
 
     @Test
-    void getReservationDate() {
+    void getReservationDateTest() {
         assertThat(benefitCalculator.getReservationDate()).isEqualTo(24);
     }
 
     @Test
-    void getTotalPrice() {
+    void getTotalPriceTest() {
         assertThat(benefitCalculator.getTotalPrice()).isEqualTo(110000);
     }
 
     @Test
-    void getPresent() {
+    void getPresentTest() {
         assertThat(benefitCalculator.getPresent()).isEqualTo("없음");
     }
 
     @Test
-    void getBenefitResult() {
+    void getBenefitResultTest() {
         assertThat(benefitCalculator.getBenefitResult()).isEqualTo(Map.of(
                 "크리스마스 디데이 할인", -3300,
                 "평일 할인", -2023,
@@ -60,22 +62,22 @@ class BenefitCalculatorTest {
     }
 
     @Test
-    void getBenefitPrice() {
+    void getBenefitPriceTest() {
         assertThat(benefitCalculator.getBenefitPrice()).isEqualTo(-6323);
     }
 
     @Test
-    void getDiscountedTotalPrice() {
+    void getDiscountedTotalPriceTest() {
         assertThat(benefitCalculator.getDiscountedTotalPrice()).isEqualTo(103677);
     }
 
     @Test
-    void getEventBadge() {
+    void getEventBadgeTest() {
         assertThat(benefitCalculator.getEventBadge()).isEqualTo("별");
     }
 
     @Test
-    void isBenefitAvailable() {
+    void isBenefitAvailableTest() {
         assertThat(benefitCalculator.isBenefitAvailable()).isTrue();
     }
 }

@@ -4,7 +4,7 @@ import christmas.model.BenefitCalculator;
 import christmas.model.UserOrder;
 import christmas.view.InputView;
 import christmas.view.OutputView;
-import java.util.Map;
+import java.util.LinkedHashMap;
 
 public class ChristmasEventService {
 
@@ -18,7 +18,7 @@ public class ChristmasEventService {
 
     public UserOrder requestUserInput() {
         int reservationDate = inputView.readDate();
-        Map<String, Integer> reservationOrder = inputView.readOrder();
+        LinkedHashMap<String, Integer> reservationOrder = inputView.readOrder();
 
         return new UserOrder(reservationDate, reservationOrder);
     }

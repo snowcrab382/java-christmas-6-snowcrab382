@@ -15,7 +15,6 @@ import static christmas.constant.Constants.WEEKDAY_SALE_DEFAULT;
 import static christmas.constant.Constants.WEEKEND_SALE_DEFAULT;
 
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 public class BenefitCalculator {
 
@@ -50,7 +49,7 @@ public class BenefitCalculator {
         calculateEventBadge();
     }
 
-    public Map<String, Integer> getReservationOrder() {
+    public LinkedHashMap<String, Integer> getReservationOrder() {
         return userOrder.getReservationOrder();
     }
 
@@ -66,7 +65,7 @@ public class BenefitCalculator {
         return PRESENT;
     }
 
-    public Map<String, Integer> getBenefitResult() {
+    public LinkedHashMap<String, Integer> getBenefitResult() {
         return TOTAL_BENEFIT_RESULT;
     }
 

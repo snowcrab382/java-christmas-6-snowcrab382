@@ -3,7 +3,7 @@ package christmas.validator;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import java.util.Map;
+import java.util.LinkedHashMap;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -26,7 +26,7 @@ class OrderValidatorTest {
     @ParameterizedTest
     @ValueSource(strings = {"레드와인-1,초코케이크-1"})
     void validateSuccessTest(String order) {
-        Map<String, Integer> validatedOrders = orderValidator.validate(order);
+        LinkedHashMap<String, Integer> validatedOrders = orderValidator.validate(order);
         assertThat(validatedOrders).containsEntry("레드와인", 1);
         assertThat(validatedOrders).containsEntry("초코케이크", 1);
     }
