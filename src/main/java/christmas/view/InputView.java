@@ -22,7 +22,6 @@ public class InputView {
     }
 
     public int readDate() {
-        System.out.println(EVENT_START_MESSAGE);
         System.out.println(REQUEST_DATE_MESSAGE);
         try {
             String input = Console.readLine();
