@@ -52,15 +52,15 @@ public class BenefitCalculator {
     }
 
     public void calculate() {
-        TotalPrice();
-        DdaySalePrice();
-        WeekdaySalePrice();
-        WeekendSalePrice();
-        SpecialSalePrice();
-        PresentPrice();
-        TotalBenefit();
-        DiscountedTotalPrice();
-        EventBadge();
+        totalPrice();
+        dDaySalePrice();
+        weekdaySalePrice();
+        weekendSalePrice();
+        specialSalePrice();
+        presentPrice();
+        totalBenefit();
+        discountedTotalPrice();
+        eventBadge();
     }
 
     public LinkedHashMap<String, Integer> getReservationOrder() {
@@ -95,20 +95,20 @@ public class BenefitCalculator {
         return eventBadge;
     }
 
-    private void TotalPrice() {
+    private void totalPrice() {
         getReservationOrder().forEach((key, value) -> {
             totalPrice += Menu.getPrice(key) * value;
         });
     }
 
-    private void DdaySalePrice() {
+    private void dDaySalePrice() {
         int date = getReservationDate();
         if (date <= D_DAY_SALE_DATE) {
             dDaySalePrice -= D_DAY_SALE_DEFAULT + (date - 1) * D_DAY_INCREASE_PRICE;
         }
     }
 
-    private void WeekdaySalePrice() {
+    private void weekdaySalePrice() {
         if (!isWeekend()) {
             getReservationOrder().forEach((key, value) -> {
                 if (Menu.isDessert(key)) {
@@ -118,7 +118,7 @@ public class BenefitCalculator {
         }
     }
 
-    private void WeekendSalePrice() {
+    private void weekendSalePrice() {
         if (isWeekend()) {
             getReservationOrder().forEach((key, value) -> {
                 if (Menu.isMainDish(key)) {
@@ -128,20 +128,20 @@ public class BenefitCalculator {
         }
     }
 
-    private void SpecialSalePrice() {
+    private void specialSalePrice() {
         if (isSpecialDay()) {
             specialSalePrice -= SPECIAL_SALE_DEFAULT;
         }
     }
 
-    private void PresentPrice() {
+    private void presentPrice() {
         if (isPresentAvailable()) {
             present = "샴페인 1개";
             presentPrice -= PRESENT_CHAMPAGNE_PRICE;
         }
     }
 
-    private void TotalBenefit() {
+    private void totalBenefit() {
         totalBenefitResult.put("크리스마스 디데이 할인", dDaySalePrice);
         totalBenefitResult.put("평일 할인", weekdaySalePrice);
         totalBenefitResult.put("주말 할인", weekendSalePrice);
@@ -153,11 +153,11 @@ public class BenefitCalculator {
         });
     }
 
-    private void DiscountedTotalPrice() {
+    private void discountedTotalPrice() {
         discountedTotalPrice = totalPrice + totalBenefitPrice - presentPrice;
     }
 
-    private void EventBadge() {
+    private void eventBadge() {
         if (totalBenefitPrice < -5000) {
             eventBadge = STAR_BADGE;
         }
