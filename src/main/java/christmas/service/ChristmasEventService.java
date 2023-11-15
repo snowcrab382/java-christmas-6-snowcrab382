@@ -25,6 +25,7 @@ public class ChristmasEventService {
 
     public void requestUserBenefit(UserOrder userOrder) {
         BenefitCalculator benefitCalculator = new BenefitCalculator(userOrder);
+        benefitCalculator.calculate();
 
         outputView.printBenefit(benefitCalculator);
     }
