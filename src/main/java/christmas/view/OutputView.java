@@ -7,14 +7,14 @@ import christmas.model.BenefitCalculator;
 
 public class OutputView {
 
-    public static final String BENEFIT_PREVIEW_MESSAGE = "12월 %d일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!%n";
-    public static final String BADGE_MESSAGE = "<12월 이벤트 배지>";
-    public static final String EXPECTED_PAY_MESSAGE = "<할인 후 예상 결제 금액>";
-    public static final String TOTAL_BENEFIT_MESSAGE = "<총혜택 금액>";
-    public static final String BENEFIT_RESULT_MESSAGE = "<혜택 내역>";
-    public static final String PRESENT_MESSAGE = "<증정 메뉴>";
-    public static final String TOTAL_PRICE_MESSAGE = "<할인 전 총주문 금액>";
-    public static final String ORDER_MESSAGE = "<주문 메뉴>";
+    private static final String BENEFIT_PREVIEW_MESSAGE = "12월 %d일에 우테코 식당에서 받을 이벤트 혜택 미리 보기!%n";
+    private static final String BADGE_MESSAGE = "<12월 이벤트 배지>";
+    private static final String EXPECTED_PAY_MESSAGE = "<할인 후 예상 결제 금액>";
+    private static final String TOTAL_BENEFIT_MESSAGE = "<총혜택 금액>";
+    private static final String BENEFIT_RESULT_MESSAGE = "<혜택 내역>";
+    private static final String PRESENT_MESSAGE = "<증정 메뉴>";
+    private static final String TOTAL_PRICE_MESSAGE = "<할인 전 총주문 금액>";
+    private static final String ORDER_MESSAGE = "<주문 메뉴>";
 
     public void printBenefit(BenefitCalculator benefitCalculator) {
         System.out.printf(BENEFIT_PREVIEW_MESSAGE, benefitCalculator.getReservationDate());

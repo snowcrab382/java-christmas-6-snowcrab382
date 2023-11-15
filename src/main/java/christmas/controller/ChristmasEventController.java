@@ -1,11 +1,11 @@
 package christmas.controller;
 
-import static christmas.view.InputView.EVENT_START_MESSAGE;
-
 import christmas.model.UserOrder;
 import christmas.service.ChristmasEventService;
 
 public class ChristmasEventController {
+
+    private static final String EVENT_START_MESSAGE = "안녕하세요! 우테코 식당 12월 이벤트 플래너입니다.";
 
     private final ChristmasEventService christmasEventService;
 
